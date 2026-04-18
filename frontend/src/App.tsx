@@ -12,8 +12,8 @@ export default function App() {
 
   const loadTasks = async () => {
     try {
-      const data = await fetchTasks();
-      setTasks(data);
+      const tasks = await fetchTasks();
+      setTasks(tasks);
     } catch {
       setError('Could not connect to the API. Is the server running?');
     } finally {
@@ -42,7 +42,6 @@ export default function App() {
     <div style={{ minHeight: '100vh', backgroundColor: '#f7f7f5', padding: '64px 24px 80px' }}>
       <div style={{ maxWidth: 680, margin: '0 auto' }}>
 
-        {/* Page header */}
         <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 32 }}>
           <h1 style={{ margin: 0, fontSize: 28, fontWeight: 600, color: '#37352f', letterSpacing: '-0.4px', lineHeight: 1 }}>
             My Tasks
@@ -59,7 +58,6 @@ export default function App() {
           </Alert>
         )}
 
-        {/* Task surface */}
         <div style={{ backgroundColor: '#ffffff', border: '1px solid #e9e9e7', borderRadius: 8, overflow: 'hidden' }}>
           {loading ? (
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 160 }}>

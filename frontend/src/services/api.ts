@@ -6,10 +6,10 @@ const client = axios.create({
 });
 
 export const fetchTasks = (): Promise<Task[]> =>
-  client.get('/api/tasks').then((r) => r.data);
+  client.get('/api/tasks').then((response) => response.data);
 
 export const createTask = (body: { title: string; description: string }): Promise<Task> =>
-  client.post('/api/tasks', body).then((r) => r.data);
+  client.post('/api/tasks', body).then((response) => response.data);
 
 export const toggleTask = (id: string, completed: boolean): Promise<void> =>
   client.patch(`/api/tasks/${id}`, { completed }).then(() => undefined);

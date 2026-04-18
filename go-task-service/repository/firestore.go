@@ -31,11 +31,11 @@ func (r *TaskRepository) GetAll(ctx context.Context) ([]models.Task, error) {
 		if err != nil {
 			return nil, fmt.Errorf("iterating tasks: %w", err)
 		}
-		var t models.Task
-		if err := doc.DataTo(&t); err != nil {
+		var task models.Task
+		if err := doc.DataTo(&task); err != nil {
 			return nil, fmt.Errorf("decoding task: %w", err)
 		}
-		tasks = append(tasks, t)
+		tasks = append(tasks, task)
 	}
 	if tasks == nil {
 		tasks = []models.Task{}

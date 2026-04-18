@@ -13,12 +13,22 @@ React (Firebase Hosting)
 
 ---
 
+## Live Demo
+
+| Service | URL |
+|---------|-----|
+| Frontend | https://jsonchrist.web.app |
+| Node Gateway | https://node-gateway-715767502505.us-central1.run.app |
+| Go Task Service | https://go-task-service-715767502505.us-central1.run.app |
+
+---
+
 ## Prerequisites
 
 | Tool | Version |
 |------|---------|
 | Node.js | v20+ |
-| Go | v1.21+ |
+| Go | v1.25+ |
 | Git | latest |
 
 ---
@@ -160,7 +170,7 @@ Same operations under `/api/tasks`.
 jsonchrist/
 ├── frontend/          # React 18 + Vite + MUI + react-window
 ├── node-gateway/      # Node.js 20 + Express API Gateway
-├── go-task-service/   # Go 1.21 + Firestore Task Service
+├── go-task-service/   # Go 1.25 + Firestore Task Service
 └── docs/
     └── postman_collection.json
 ```

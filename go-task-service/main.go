@@ -20,9 +20,11 @@ func main() {
 
 	cfg := config.Load()
 
+	// Firebase-style database naming: "default" without parentheses, unlike the Firestore SDK constant "(default)"
+	const firestoreDatabaseID = "default"
+
 	ctx := context.Background()
-	// Database ID is "default" (without parentheses) — Firebase-style naming used by this project
-	firestoreClient, err := firestore.NewClientWithDatabase(ctx, cfg.ProjectID, "default")
+	firestoreClient, err := firestore.NewClientWithDatabase(ctx, cfg.ProjectID, firestoreDatabaseID)
 	if err != nil {
 		log.Fatalf("failed to create Firestore client: %v", err)
 	}

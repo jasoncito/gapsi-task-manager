@@ -25,9 +25,8 @@ const maxBodyBytes = 1 << 20 // 1 MB
 func (h *TaskHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	r.Body = http.MaxBytesReader(w, r.Body, maxBodyBytes)
 
-	path := strings.TrimPrefix(r.URL.Path, "/tasks")
-	path = strings.TrimPrefix(path, "/")
-	id := path
+	id := strings.TrimPrefix(r.URL.Path, "/tasks")
+	id = strings.TrimPrefix(id, "/")
 
 	switch {
 	case r.Method == http.MethodGet && id == "":
@@ -52,8 +51,10 @@ func (h *TaskHandler) listTasks(w http.ResponseWriter, r *http.Request) {
 	jsonResponse(w, tasks, http.StatusOK)
 }
 
-const maxTitleLen = 200
-const maxDescLen = 2000
+const (
+	maxTitleLen = 200
+	maxDescLen  = 2000
+)
 
 func (h *TaskHandler) createTask(w http.ResponseWriter, r *http.Request) {
 	var body struct {
@@ -131,14 +132,14 @@ func (h *TaskHandler) deleteTask(w http.ResponseWriter, r *http.Request, id stri
 	w.WriteHeader(http.StatusNoContent)
 }
 
-func jsonResponse(w http.ResponseWriter, data interface{}, status int) {
+func jsonResponse(w http.ResponseWriter, payload interface{}, status int) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
-	json.NewEncoder(w).Encode(data)
+	json.NewEncoder(w).Encode(payload)
 }
 
-func jsonError(w http.ResponseWriter, msg string, status int) {
+func jsonError(w http.ResponseWriter, message string, status int) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
-	json.NewEncoder(w).Encode(map[string]string{"error": msg})
+	json.NewEncoder(w).Encode(map[string]string{"error": message})
 }

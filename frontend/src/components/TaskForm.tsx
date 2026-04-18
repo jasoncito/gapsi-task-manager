@@ -18,7 +18,10 @@ export default function TaskForm({ onSubmit }: Props) {
   };
 
   const handleSubmit = async () => {
-    if (!title.trim()) { setError('Title is required'); return; }
+    if (!title.trim()) {
+      setError('Title is required');
+      return;
+    }
     setLoading(true);
     try {
       await onSubmit(title.trim(), description.trim());
@@ -79,7 +82,6 @@ export default function TaskForm({ onSubmit }: Props) {
         }}
         onKeyDown={handleKeyDown}
       >
-        {/* Title input */}
         <div style={{ padding: '20px 20px 0' }}>
           <input
             ref={titleRef}
@@ -98,7 +100,6 @@ export default function TaskForm({ onSubmit }: Props) {
           )}
         </div>
 
-        {/* Description input */}
         <div style={{ padding: '8px 20px 0' }}>
           <textarea
             value={description}
@@ -113,7 +114,6 @@ export default function TaskForm({ onSubmit }: Props) {
           />
         </div>
 
-        {/* Divider + actions */}
         <div style={{ height: 1, backgroundColor: '#e9e9e7', margin: '12px 0 0' }} />
         <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 6, padding: '10px 16px' }}>
           <button
