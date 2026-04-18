@@ -1,0 +1,191 @@
+{
+  "info": {
+    "_postman_id": "gapsi-task-manager-collection",
+    "name": "Gapsi Task Manager API",
+    "description": "REST API documentation for the Gapsi Task Manager. The Node.js Gateway exposes /api/tasks and proxies to the Go Task Service.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "gateway_url",
+      "value": "http://localhost:3001",
+      "description": "Node.js API Gateway base URL"
+    },
+    {
+      "key": "go_service_url",
+      "value": "http://localhost:8080",
+      "description": "Go Task Service base URL (internal)"
+    },
+    {
+      "key": "task_id",
+      "value": "",
+      "description": "Task ID returned from Create Task"
+    }
+  ],
+  "item": [
+    {
+      "name": "Node.js Gateway",
+      "item": [
+        {
+          "name": "List Tasks",
+          "request": {
+            "method": "GET",
+            "url": "{{gateway_url}}/api/tasks",
+            "description": "Returns all tasks from Firestore."
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "body": "[\n  {\n    \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n    \"title\": \"Buy groceries\",\n    \"description\": \"Milk, eggs, bread\",\n    \"creation_date\": \"18-Apr-26\",\n    \"creation_time\": \"14:30\",\n    \"completed\": false\n  }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Create Task",
+          "request": {
+            "method": "POST",
+            "url": "{{gateway_url}}/api/tasks",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Buy groceries\",\n  \"description\": \"Milk, eggs, bread\"\n}"
+            },
+            "description": "Creates a new task. Returns the created task with auto-generated id and timestamps."
+          },
+          "response": [
+            {
+              "name": "201 Created",
+              "status": "Created",
+              "code": 201,
+              "body": "{\n  \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n  \"title\": \"Buy groceries\",\n  \"description\": \"Milk, eggs, bread\",\n  \"creation_date\": \"18-Apr-26\",\n  \"creation_time\": \"14:30\",\n  \"completed\": false\n}"
+            },
+            {
+              "name": "400 Bad Request",
+              "status": "Bad Request",
+              "code": 400,
+              "body": "{\n  \"error\": \"title is required\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Toggle Task Completed",
+          "request": {
+            "method": "PATCH",
+            "url": "{{gateway_url}}/api/tasks/{{task_id}}",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"completed\": true\n}"
+            },
+            "description": "Updates the completed status of a task."
+          },
+          "response": [
+            {
+              "name": "204 No Content",
+              "status": "No Content",
+              "code": 204,
+              "body": ""
+            },
+            {
+              "name": "404 Not Found",
+              "status": "Not Found",
+              "code": 404,
+              "body": "{\n  \"error\": \"task not found\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Delete Task",
+          "request": {
+            "method": "DELETE",
+            "url": "{{gateway_url}}/api/tasks/{{task_id}}",
+            "description": "Deletes a task by ID."
+          },
+          "response": [
+            {
+              "name": "204 No Content",
+              "status": "No Content",
+              "code": 204,
+              "body": ""
+            },
+            {
+              "name": "404 Not Found",
+              "status": "Not Found",
+              "code": 404,
+              "body": "{\n  \"error\": \"task not found\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "url": "{{gateway_url}}/health",
+            "description": "Gateway health check endpoint."
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"status\": \"ok\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Go Task Service (internal)",
+      "item": [
+        {
+          "name": "List Tasks",
+          "request": {
+            "method": "GET",
+            "url": "{{go_service_url}}/tasks",
+            "description": "Direct call to Go service — list all tasks."
+          }
+        },
+        {
+          "name": "Create Task",
+          "request": {
+            "method": "POST",
+            "url": "{{go_service_url}}/tasks",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Buy groceries\",\n  \"description\": \"Milk, eggs, bread\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Toggle Task Completed",
+          "request": {
+            "method": "PATCH",
+            "url": "{{go_service_url}}/tasks/{{task_id}}",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"completed\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Task",
+          "request": {
+            "method": "DELETE",
+            "url": "{{go_service_url}}/tasks/{{task_id}}"
+          }
+        },
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "url": "{{go_service_url}}/health"
+          }
+        }
+      ]
+    }
+  ]
+}

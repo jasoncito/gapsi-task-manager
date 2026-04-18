@@ -1,0 +1,8 @@
+.env
+credentials.json
+server
+go-task-service
+*.test
+*.out
+coverage.html
+tmp/
