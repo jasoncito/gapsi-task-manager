@@ -17,6 +17,16 @@
       "description": "Go Task Service base URL (internal)"
     },
     {
+      "key": "gateway_url_prod",
+      "value": "https://node-gateway-715767502505.us-central1.run.app",
+      "description": "Node.js API Gateway — Cloud Run production URL"
+    },
+    {
+      "key": "go_service_url_prod",
+      "value": "https://go-task-service-715767502505.us-central1.run.app",
+      "description": "Go Task Service — Cloud Run production URL (internal)"
+    },
+    {
       "key": "task_id",
       "value": "",
       "description": "Task ID returned from Create Task"
